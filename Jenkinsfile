@@ -3,8 +3,12 @@ pipeline {
   
   stages {
     stage("build") {
+
       steps {
-        echo "this is build"
+        dir("one-click-deploy-fns") {
+          echo pwd()
+          echo "this is build"
+        }
       }
     }
     stage("test") {
