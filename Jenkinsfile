@@ -6,6 +6,10 @@ pipeline {
     stage("build") {
       steps {
         echo "Building Twilio Serverless Functions..."
+        echo "TWILIO API KEY: ${TWILIO_API_KEY}"
+        nodejs('Node-14.20.1') {
+            sh "npm install"
+          }
       }
     }
 
@@ -18,12 +22,11 @@ pipeline {
     stage("deploy") {
       steps {
         echo "Deploying Twilio Serverless Functions..."
+        echo "TWILIO API KEY: ${TWILIO_API_KEY}"
         dir("one-click-deploy-fns") {
           echo pwd()
           nodejs('Node-14.20.1') {
-            sh "twilio login ${TWILIO_ACCOUNT_SID} --auth-token=${TWILIO_AUTH_TOKEN}"
-            sh "twilio plugins:install @twilio-labs/plugin-serverless"
-            sh "twilio serverless:deploy"
+            sh "npm run deploy"
           }
         }
       }
