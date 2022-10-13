@@ -7,6 +7,7 @@ pipeline {
       steps {
         dir("one-click-deploy-fns") {
           echo pwd()
+          sh "twilio version"
           echo "this is build"
         }
       }
