@@ -7,7 +7,9 @@ pipeline {
       steps {
         dir("one-click-deploy-fns") {
           echo pwd()
-          sh "twilio version"
+          nodejs('Node-14.20.1') {
+            sh "twilio version"
+          }
           echo "this is build"
         }
       }
