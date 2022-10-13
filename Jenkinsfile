@@ -23,6 +23,10 @@ pipeline {
       steps {
         echo "Deploying Twilio Serverless Functions..."
         echo "TWILIO API KEY: ${TWILIO_API_KEY}"
+        script {
+          def domain = manager.getLogMatcher(".*domain.*")
+          echo domain
+        }
         dir("one-click-deploy-fns") {
           echo pwd()
           nodejs('Node-14.20.1') {
