@@ -6,7 +6,7 @@ pipeline {
     stage("Serverless Build") {
       steps {
         echo "Building Twilio Serverless Functions..."
-        echo "TWILIO API KEY: ${TWILIO_API_KEY}"
+        echo "TWILIO API KEY: ${TWILIO_ACCOUNT_SID}"
         dir("one-click-deploy-fns") {
           echo pwd()
           nodejs('Node-14.20.1') {
@@ -25,7 +25,7 @@ pipeline {
     stage("Serverless Deploy") {
       steps {
         echo "Deploying Twilio Serverless Functions..."
-        echo "TWILIO API KEY: ${TWILIO_API_KEY}"
+        echo "TWILIO API KEY: ${TWILIO_ACCOUNT_SID}"
         dir("one-click-deploy-fns") {
           echo pwd()
           nodejs('Node-14.20.1') {
@@ -55,11 +55,11 @@ pipeline {
       steps {
         echo "Executing plugin build script..."
         echo "ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL: ${env.ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL}"
-        echo "TWILIO API KEY: ${TWILIO_API_KEY}"
+        echo "TWILIO API KEY: ${TWILIO_ACCOUNT_SID}"
         dir("plugin-one-click-deploy") {
           echo pwd()
           nodejs('Node-14.20.1') {
-            sh "twilio login ${TWILIO_API_KEY} --auth-token=${TWILIO_API_SECRET} -p deploymentProfile"
+            sh "twilio login ${TWILIO_ACCOUNT_SID} --auth-token=${TWILIO_AUTH_TOKEN} -p deploymentProfile"
             sh "twilio plugins:install @twilio-labs/plugin-flex"
             sh "twilio plugins"
           }
