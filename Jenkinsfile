@@ -39,9 +39,14 @@ pipeline {
       steps {
         echo "Executing Post Deploy script..."
         script {
-          def domain = manager.getLogMatcher(".*domain.*")
-          echo domain.substring(1)
-          echo domain.split("")[1]
+          def domainMatcher = manager.getLogMatcher(".*domain.*")
+          print(domainMatcher)
+          print(domainMatcher.matches())
+          if(domainMatcher.matches()) {
+              print(domainMatcher.group(0))
+              print(domainMatcher.group(0).substring(0))
+              print(domainMatcher.group(0).split(" ")[1])
+          }
         }
       }
     }
