@@ -68,9 +68,7 @@ pipeline {
         dir("plugin-one-click-deploy") {
           echo pwd()
           nodejs('Node-14.20.1') {
-            def profileName
-            profileName = "deploy" + env.TWILIO_ACCOUNT_SID.substring(0,8) + "Profile"
-            sh "twilio login ${TWILIO_ACCOUNT_SID} --auth-token=${TWILIO_AUTH_TOKEN} -p ${profileName}"
+            sh "twilio login ${TWILIO_ACCOUNT_SID} --auth-token=${TWILIO_AUTH_TOKEN} -p ${TWILIO_ACCOUNT_SID}"
             sh "twilio plugins:install @twilio-labs/plugin-flex"
             sh "twilio plugins"
           }
