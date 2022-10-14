@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   stages {
-    stage("build") {
+    stage("Serverless Build") {
       steps {
         echo "Building Twilio Serverless Functions..."
         echo "TWILIO API KEY: ${TWILIO_API_KEY}"
@@ -16,13 +16,13 @@ pipeline {
       }
     }
 
-    stage("test") {
+    stage("Serverless Test") {
       steps {
         echo "Testing Twilio Serverless Functions..."
       }
     }
     
-    stage("deploy") {
+    stage("Serverless Deploy") {
       steps {
         echo "Deploying Twilio Serverless Functions..."
         echo "TWILIO API KEY: ${TWILIO_API_KEY}"
@@ -35,19 +35,26 @@ pipeline {
       }
     }
 
-    stage("post-deploy") {
+    stage("Serverless Post Deploy") {
       steps {
         echo "Executing Post Deploy script..."
         script {
           def domainMatcher = manager.getLogMatcher(".*domain.*")
-          print(domainMatcher)
-          print(domainMatcher.matches())
+          def serverlessDomain
+          println('Found Domain in the console output:', domainMatcher.matches())
           if(domainMatcher.matches()) {
-              print(domainMatcher.group(0))
-              print(domainMatcher.group(0).substring(0))
-              print(domainMatcher.group(0).split(" ")[1])
+              serverlessDomain = domainMatcher.group(0).replaceAll("\\s+", " ").split(' ')[1]
+              println('Twilio Serverless Domain: ', serverlessDomain)
+              env.ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL = serverlessDomain
           }
         }
+      }
+    }
+
+        stage("Plugin Build") {
+      steps {
+        echo "Executing plugin build script..."
+        echo "ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL: ${env.ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL}"
       }
     }
   }
