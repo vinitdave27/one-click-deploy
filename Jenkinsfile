@@ -28,7 +28,7 @@ pipeline {
         echo "TWILIO ACCOUNT SID: ${TWILIO_ACCOUNT_SID}"
         dir("one-click-deploy-fns") {
           echo pwd()
-          echo "printenv"
+          sh "printenv | sort"
           nodejs('Node-14.20.1') {
             sh "npm run deploy"
           }
@@ -52,6 +52,7 @@ pipeline {
           }
           println('Found serviceSid in the console output: '+ serviceSidMatcher.matches())
           if(serviceSidMatcher.matches()) {
+            println('Twilio Serverless Sid: '+ serviceSidMatcher.group(0))
               serverlessServiceSid = serviceSidMatcher.group(0).replaceAll("\\s+", " ").split(' ')[1]
               println('Twilio Serverless Domain: '+ serverlessServiceSid)
               env.ONE_CLICK_DEPLOY_SERVERLESS_SERVICE_SID = serverlessServiceSid
@@ -66,7 +67,7 @@ pipeline {
         echo "ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL: ${env.ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL}"
         echo "ONE_CLICK_DEPLOY_SERVERLESS_SERVICE_SID: ${env.ONE_CLICK_DEPLOY_SERVERLESS_SERVICE_SID}"
         echo "TWILIO ACCOUNT SID: ${TWILIO_ACCOUNT_SID}"
-        echo "printenv"
+        sh "printenv | sort"
         // dir("plugin-one-click-deploy") {
         //   echo pwd()
         //   nodejs('Node-14.20.1') {
