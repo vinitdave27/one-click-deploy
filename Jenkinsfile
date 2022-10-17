@@ -28,6 +28,7 @@ pipeline {
         echo "TWILIO ACCOUNT SID: ${TWILIO_ACCOUNT_SID}"
         dir("one-click-deploy-fns") {
           echo pwd()
+          echo "sh printenv"
           nodejs('Node-14.20.1') {
             sh "npm run deploy"
           }
