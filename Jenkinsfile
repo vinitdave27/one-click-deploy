@@ -10,7 +10,7 @@ pipeline {
                     nodejs('Node-14.20.1') {
                         // sh "twilio plugins:install @twilio-labs/plugin-serverless"
                         sh "npm install"
-                        fileOperations([fileDeleteOperation(excludes: '', includes: '.twiliodeployinfo')])
+                        //fileOperations([fileDeleteOperation(excludes: '', includes: '.twiliodeployinfo')])
                     }
                 }
             }
@@ -46,17 +46,20 @@ pipeline {
                         println('Twilio Serverless Domain: '+ domain)
                         env.ONE_CLICK_DEPLOY_FUNCTIONS_BASE_URL = domain
                     }
-                    def serviceSidMatcher = manager.getLogMatcher(".*serviceSid.*")
-                    println(serviceSidMatcher)
-                    def serviceSid
-                    println('Found serviceSid in the console output: '+ serviceSidMatcher.matches())
-                    if(serviceSidMatcher.matches()) {
-                        serviceSid = serviceSidMatcher.group(0)
-                        println('Twilio Serverless Sid: '+ serviceSid)
-                        env.ONE_CLICK_DEPLOY_SERVERLESS_SERVICE_SID = serviceSid
+                    echo pwd()
+                    if(fileExists("/var/jenkins_home/workspace/one-click-deploy/one-click-deploy-fns/.twiliodeployinfo")) {
+                        def serverlessDeployInfo = readJSON(file: '/var/jenkins_home/workspace/one-click-deploy/one-click-deploy-fns/.twiliodeployinfo')
+                        echo serverlessDeployInfo[TWILIO_ACCOUNT_SID].serviceSid
+                        env.ONE_CLICK_DEPLOY_SERVICE_SID = serverlessDeployInfo[TWILIO_ACCOUNT_SID].serviceSid
                     }
                 }
+
             }
+        }
+        stage("Environment Post Serverless Deployment") {
+          steps {
+            sh "printenv | sort"
+          }
         }
     }
 }
