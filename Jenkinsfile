@@ -87,15 +87,13 @@ pipeline {
                         dir("plugin-one-click-deploy") {
                             echo pwd()
                             nodejs("Node-14.20.1") {
-                                sh "twilio flex:plugins:deploy --major --changelog 'One-Click-Deploy' --description 'Sample OOTB Twilio Flex Plugin"
+                                sh "twilio flex:plugins:deploy --major --changelog 'One-Click-Deploy' --description 'Sample OOTB Twilio Flex Plugin'"
                                 script {
-                                    def packageJSON
                                     if(fileExists("package.json")) {
                                         packageJSON = readJSON(file:"package.json");
                                     }
                                  }
-                                 echo packageJSON.version
-                                //sh "twilio flex:plugins:release --plugin example-plugin@1.0.0 --plugin additional-plugin@2.1.0 --name 'Example 1' --description 'Demonstrating use of twilio flex:plugins:release'"
+                                sh "twilio flex:plugins:release --plugin ${packageJSON.name}@${packageJSON.version} --name 'plugin-one-click-deploy' --description 'Demonstrating use of Jenkins one-click-deploy'"
                             }
                         }
                     }
