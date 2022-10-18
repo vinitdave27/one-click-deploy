@@ -52,7 +52,7 @@ pipeline {
                     script {
                         if(fileExists(".twiliodeployinfo")) {
                             def twilioDeployInfo = readJSON(file:".twiliodeployinfo");
-                            env.ONE_CLICK_DEPLOY_FNS_SERVICE_SID = serverlessDeployInfo[TWILIO_ACCOUNT_SID].serviceSid
+                            env.ONE_CLICK_DEPLOY_FNS_SERVICE_SID = twilioDeployInfo[TWILIO_ACCOUNT_SID].serviceSid
                         }
                     }
                 }
