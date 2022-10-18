@@ -63,7 +63,6 @@ pipeline {
                 stage("Build") {
                     steps {
                         echo "Building..."
-                        sh "printenv | sort"
                         dir("plugin-one-click-deploy") {
                             echo pwd()
                             nodejs("Node-14.20.1") {
@@ -85,6 +84,20 @@ pipeline {
                 stage("Deploy") {
                     steps {
                         echo "Deploying..."
+                        dir("plugin-one-click-deploy") {
+                            echo pwd()
+                            nodejs("Node-14.20.1") {
+                                sh "twilio flex:plugins:deploy --major --changelog 'One-Click-Deploy' --description 'Sample OOTB Twilio Flex Plugin"
+                                script {
+                                    def packageJSON
+                                    if(fileExists("package.json")) {
+                                        packageJSON = readJSON(file:"package.json");
+                                    }
+                                 }
+                                 echo packageJSON.version
+                                //sh "twilio flex:plugins:release --plugin example-plugin@1.0.0 --plugin additional-plugin@2.1.0 --name 'Example 1' --description 'Demonstrating use of twilio flex:plugins:release'"
+                            }
+                        }
                     }
                 }
                 stage("Post Deploy") {
