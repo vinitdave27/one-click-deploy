@@ -5,7 +5,7 @@ import { Actions } from '../../states/CustomTaskListState';
 import CustomTaskList from './CustomTaskList';
 
 const mapStateToProps = (state) => ({
-  isOpen: state['one-click-deploy'].customTaskList.isOpen,
+  isOpen: state['oneclickdeploy'].customTaskList.isOpen,
 });
 
 const mapDispatchToProps = (dispatch) => ({

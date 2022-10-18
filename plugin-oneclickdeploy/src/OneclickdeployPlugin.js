@@ -5,9 +5,9 @@ import { FlexPlugin } from '@twilio/flex-plugin';
 import CustomTaskListContainer from './components/CustomTaskList/CustomTaskList.Container';
 import reducers, { namespace } from './states';
 
-const PLUGIN_NAME = 'OneClickDeployPlugin';
+const PLUGIN_NAME = 'OneclickdeployPlugin';
 
-export default class OneClickDeployPlugin extends FlexPlugin {
+export default class OneclickdeployPlugin extends FlexPlugin {
   constructor() {
     super(PLUGIN_NAME);
   }
@@ -23,7 +23,7 @@ export default class OneClickDeployPlugin extends FlexPlugin {
     this.registerReducers(manager);
 
     const options = { sortOrder: -1 };
-    flex.AgentDesktopView.Panel1.Content.add(<CustomTaskListContainer key="OneClickDeployPlugin-component" />, options);
+    flex.AgentDesktopView.Panel1.Content.add(<CustomTaskListContainer key="OneclickdeployPlugin-component" />, options);
   }
 
   /**

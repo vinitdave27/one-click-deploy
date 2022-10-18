@@ -63,7 +63,7 @@ pipeline {
                 stage("Build") {
                     steps {
                         echo "Building..."
-                        dir("plugin-one-click-deploy") {
+                        dir("plugin-oneclickdeploy") {
                             echo pwd()
                             nodejs("Node-14.20.1") {
                                 sh "twilio plugins:install @twilio-labs/plugin-flex"
@@ -76,7 +76,7 @@ pipeline {
                 stage("Test") {
                     steps {
                         echo "Testing..."
-                        dir("plugin-one-click-deploy") {
+                        dir("plugin-oneclickdeploy") {
                             echo pwd()
                         }
                     }
@@ -84,7 +84,7 @@ pipeline {
                 stage("Deploy") {
                     steps {
                         echo "Deploying..."
-                        dir("plugin-one-click-deploy") {
+                        dir("plugin-oneclickdeploy") {
                             echo pwd()
                             nodejs("Node-14.20.1") {
                                 sh "twilio flex:plugins:deploy --major --changelog 'One-Click-Deploy' --description 'Sample OOTB Twilio Flex Plugin'"
@@ -93,7 +93,7 @@ pipeline {
                                         packageJSON = readJSON(file:"package.json");
                                     }
                                  }
-                                sh "twilio flex:plugins:release --plugin ${packageJSON.name}@${packageJSON.version} --name 'plugin-one-click-deploy' --description 'Demonstrating use of Jenkins one-click-deploy'"
+                                sh "twilio flex:plugins:release --plugin ${packageJSON.name}@${packageJSON.version} --name 'plugin-oneclickdeploy' --description 'Demonstrating use of Jenkins one-click-deploy'"
                             }
                         }
                     }

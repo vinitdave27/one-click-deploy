@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { reduce as CustomTaskListReducer } from './CustomTaskListState';
 
 // Register your redux store under a unique namespace
-export const namespace = 'one-click-deploy';
+export const namespace = 'oneclickdeploy';
 
 // Combine the reducers
 export default combineReducers({
